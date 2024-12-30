@@ -1,24 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #include "head.h"
+#define MAX_LENGTH 20
 
 int main()
 {
-    char title[255];
-    printf("maine\n");
+   // char title[MAX_LENGTH + 2];
+    char* title = NULL;
+    title = calloc(MAX_LENGTH+2, sizeof(char));
+    if(!title)
+    {
+        printf("Error allocating memory!");
+        return 0;   
+    }
     FILE *file = openFile("test.html");
     headComponents(file);
     fprintf(file, "\n  </head>");
-    printf("kokio title nori?\n");
-    fscanf(stdin, "%255[^\n]", &title);
-    body(file, title);
-
+    title = getValidTitleInput(title, MAX_LENGTH);
+    printTitle(file, title);
     fprintf(file, "\n</main>\n</body>");
     fprintf(file, "\n</html>");
     fclose(file);
 
-    // Open the HTML file in the default browser
+     //Open the HTML file in the default browser
 #ifdef _WIN32
     system("start test.html");
 #elif __APPLE__

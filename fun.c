@@ -16,6 +16,7 @@ FILE *openFile(char *name)
     printf("whoop\n");
     return file;
 }
+
 int headComponents(FILE *file)
 {
     printf("whoopwhoop\n");
@@ -33,9 +34,26 @@ int headComponents(FILE *file)
     <title>My Website</title>");
     return 0;
 }
+
 int body(FILE *file, char *title)
 {
     fprintf(file, "<body>\n\
     <main id=\"blur\">\n");
     fprintf(file, "<h1>%s</h1>", title);
+}
+
+int dayCounter(FILE *file, int numberOfDays)
+{
+    fprintf(file, "<div class=\"grid-container\">\n");
+    for (int i = 1; i <= numberOfDays; ++i) 
+    {
+        fprintf(file,
+                "<div class=\"grid-item\">\n"
+                "  <button onclick=\"openPopup('First button popup text')\">\n"
+                "    <img src=\"snowball.svg\">\n"
+                "    <span>%d</span>\n"
+                "  </button>\n"
+                "</div>\n", i);
+    }
+    fprintf(file, "</div>\n");
 }

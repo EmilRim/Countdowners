@@ -1,31 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include "head.h"
 
 int main()
 {
-    char title[255];
-    printf("maine\n");
-    FILE *file = openFile("test.html");
-    headComponents(file);
-    fprintf(file, "\n  </head>");
-    printf("kokio title nori?\n");
-    fscanf(stdin, "%255[^\n]", &title);
-    body(file, title);
 
-    fprintf(file, "\n</main>\n</body>");
-    fprintf(file, "\n</html>");
-    fclose(file);
+    char buttonImg[32], bottomImg[32], backgroundColor[64], fontColor[32];
 
-    // Open the HTML file in the default browser
-#ifdef _WIN32
-    system("start test.html");
-#elif __APPLE__
-    system("open test.html");
-#else
-    system("xdg-open test.html");
-#endif
+    getTheme(buttonImg, bottomImg, backgroundColor, fontColor);
+
+    printf("%s\n%s\n%s\n%s\n\n", buttonImg, bottomImg, backgroundColor, fontColor);
 
     return 0;
 }
+
+/*
+    <style>
+        body {
+            background: VARIABLE;
+        }
+        .grid-item button span {
+            color: VARIABLE;
+        }
+    </style>
+*/

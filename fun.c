@@ -15,6 +15,7 @@ FILE *openFile(char *name)
     }
     return file;
 }
+
 int headComponents(FILE *file)
 {
     fprintf(file, "<!DOCTYPE html>\n\
@@ -94,4 +95,19 @@ int testForInjection(char *input) {
         }
     }
     return 0; // No XSS injection detected
+}
+int dayCounter(FILE *file, int numberOfDays)
+{
+    fprintf(file, "<div class=\"grid-container\">\n");
+    for (int i = 1; i <= numberOfDays; ++i) 
+    {
+        fprintf(file,
+                "<div class=\"grid-item\">\n"
+                "  <button onclick=\"openPopup('First button popup text')\">\n"
+                "    <img src=\"snowball.svg\">\n"
+                "    <span>%d</span>\n"
+                "  </button>\n"
+                "</div>\n", i);
+    }
+    fprintf(file, "</div>\n");
 }

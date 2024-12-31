@@ -3,6 +3,9 @@
 #include <math.h>
 #include "head.h"
 
+#define MAX_DAYS 30
+#define MIN_DAYS 1
+
 int main()
 {
     char title[255];
@@ -17,9 +20,9 @@ int main()
     printf("kiek dienu?\n");
     fscanf(stdin, "%d", &number);
 
-    while(number < 1 || number > 30)
+    while(number < MIN_DAYS || number > MAX_DAYS)
     {
-        printf("Please enter a number in a range [1; 30]: ");
+        printf("Please enter a number in a range [%d; %d]: ", MIN_DAYS, MAX_DAYS);
         fscanf(stdin, "%d", &number);
     }
     dayCounter(file, number);

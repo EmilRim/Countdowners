@@ -3,9 +3,6 @@
 
 #include <stdio.h>
 
-FILE *openFile(char *);
-int headComponents(FILE *);
-int body(FILE *, char *);
-// cia eis visos funkcijos
+void getTheme(char *buttonImg, char *bottomImg, char *backgroundColor, char *fontColor);
 
 #endif

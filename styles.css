@@ -122,8 +122,7 @@ h1 {
         .blur {
             filter: blur(20px);
             pointer-events: none;
-            user-select: none;
-            transition: filter 0.3s ease; 
+            user-select: none; 
             z-index: 998;
         }
         .trees img {

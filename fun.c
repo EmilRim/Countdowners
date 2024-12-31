@@ -57,3 +57,14 @@ int dayCounter(FILE *file, int numberOfDays)
     }
     fprintf(file, "</div>\n");
 }
+
+int validationForDaysNumber(int number)
+{
+  while(number < MIN_DAYS || number > MAX_DAYS)
+    {
+        printf("Please enter a number in a range [%d; %d]: ", MIN_DAYS, MAX_DAYS);
+        fscanf(stdin, "%d", &number);
+    }
+
+  return number;
+}

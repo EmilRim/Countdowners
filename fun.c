@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include "head.h"
+#include "fun.h"
 
 // programos funkcijos
 FILE *openFile(char *name)

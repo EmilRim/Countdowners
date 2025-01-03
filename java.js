@@ -26,3 +26,20 @@ function togglePopup() {
     // Remove blur effect
     blurElement.classList.remove('blur');
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Start with the loading screen visible
+    const loadingScreen = document.getElementById("loading-screen");
+    const content = document.getElementById("content");
+  
+    // Wait until all assets are loaded
+    window.onload = () => {
+      // Hide the loading screen
+      loadingScreen.style.display = "none";
+  
+      // Show the main content
+      content.style.display = "block";
+    };
+  });
+
+ 

@@ -5,34 +5,54 @@
 #include "head.h"
 #define MAX_LENGTH 20
 
-
 int main()
 {
+    char *title = NULL;
+    int number; // number of days
 
-   // char title[MAX_LENGTH + 2];
-    char* title = NULL;
-    int number; //number of days
-    title = calloc(MAX_LENGTH+2, sizeof(char));
-    if(!title)
+    // Allocate memory for title
+    title = calloc(MAX_LENGTH + 2, sizeof(char));
+    if (!title)
     {
-        printf("Error allocating memory!");
+        printf("Error allocating memory!\n");
         return 0;   
     }
 
+    // Open file for writing HTML
     FILE *file = openFile("test.html");
+    if (!file)
+    {
+        free(title);
+        return 0;
+    }
+
+    // Write head section
     headComponents(file);
     fprintf(file, "\n  </head>");
+
+    // Get valid title input
     title = getValidTitleInput(title, MAX_LENGTH);
-    printTitle(file, title);
-    printf("kiek dienu?\n");
+
+    // Write body section with title
+    body(file, title);
+
+    // Prompt and validate the number of days
+    printf("Kiek dienų?\n");
     fscanf(stdin, "%d", &number);
     number = validationForDaysNumber(number);
+
+    // Write days counter
     dayCounter(file, number);
-    fprintf(file, "\n</main>\n</body>");
+
+    // Finalize HTML structure
+    fprintf(file, "\n</main>\n</div>\n</body>");
     fprintf(file, "\n</html>");
     fclose(file);
 
-     //Open the HTML file in the default browser
+    // Free allocated memory
+    free(title);
+
+    // Open the HTML file in the default browser
 #ifdef _WIN32
     system("start test.html");
 #elif __APPLE__
@@ -42,5 +62,4 @@ int main()
 #endif
 
     return 0;
-
 }

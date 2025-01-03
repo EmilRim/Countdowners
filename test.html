@@ -1,20 +1,60 @@
 <!DOCTYPE html>
-<html lang=" en ">
+<html lang="en">
 <head>
-<meta charset=" UTF -8 " />
-<meta name=" viewport " content=" width = device - width,initial - scale = 1.0 " />
-<link      href="https://fonts.googleapis.com/css?family=Krona One"
-      rel="stylesheet"/>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="//fonts.googleapis.com/css?family=Anonymous+Pro"/>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="java.js"></script>
-    <title>My Website</title>
+<style>
+    .spinner-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: white;
+        z-index: 999999;
+    }
+    #spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    #main-content { display: none; }
+</style>
+<script>
+    window.addEventListener('load', function() {
+        document.querySelector('.spinner-wrapper').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+    });
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=Krona One" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Anonymous+Pro">
+<link rel="stylesheet" href="styles.css">
+<script src="java.js" defer></script>
+<title>My Website</title>
+</head>
+
   </head><body>
-    <main id="blur">
-<h1>oapa</h1><div class="grid-container">
+  <div class="spinner-wrapper">
+    <div id="spinner"></div>
+  </div>
+  <div id="main-content">
+    <main>
+      <h1>loool</h1>
+    </main>
+  </div>
+</body>
+<div class="grid-container">
 <div class="grid-item">
   <button onclick="openPopup('First button popup text')">
     <img src="snowball.svg">
@@ -75,38 +115,9 @@
     <span>10</span>
   </button>
 </div>
-<div class="grid-item">
-  <button onclick="openPopup('First button popup text')">
-    <img src="snowball.svg">
-    <span>11</span>
-  </button>
-</div>
-<div class="grid-item">
-  <button onclick="openPopup('First button popup text')">
-    <img src="snowball.svg">
-    <span>12</span>
-  </button>
-</div>
-<div class="grid-item">
-  <button onclick="openPopup('First button popup text')">
-    <img src="snowball.svg">
-    <span>13</span>
-  </button>
-</div>
-<div class="grid-item">
-  <button onclick="openPopup('First button popup text')">
-    <img src="snowball.svg">
-    <span>14</span>
-  </button>
-</div>
-<div class="grid-item">
-  <button onclick="openPopup('First button popup text')">
-    <img src="snowball.svg">
-    <span>15</span>
-  </button>
-</div>
 </div>
 
 </main>
+</div>
 </body>
 </html>

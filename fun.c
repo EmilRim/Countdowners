@@ -16,22 +16,79 @@ FILE *openFile(char *name)
     return file;
 }
 
-int headComponents(FILE *file)
+int body(FILE *file, char *title)
 {
-    fprintf(file, "<!DOCTYPE html>\n\
-<html lang=\" en \">\n<head>\n<meta charset=\" UTF -8 \" />\n<meta name=\" viewport \" content=\" width = device - width,initial - scale = 1.0 \" />\n\
-<link\
-      href=\"https://fonts.googleapis.com/css?family=Krona One\"\n\
-      rel=\"stylesheet\"/>\n\
-    <link\n\
-      rel=\"stylesheet\"\n\
-      type=\"text/css\"\n\
-      href=\"//fonts.googleapis.com/css?family=Anonymous+Pro\"/>\n\
-    <link rel=\"stylesheet\" href=\"styles.css\" />\n\
-    <script src=\"java.js\"></script>\n\
-    <title>My Website</title>");
+    fprintf(file, "<body>\n");
+    // Spinner wrapper
+    fprintf(file, "  <div class=\"spinner-wrapper\">\n");
+    fprintf(file, "    <div id=\"spinner\"></div>\n");
+    fprintf(file, "  </div>\n");
+    
+    // Main content
+    fprintf(file, "  <div id=\"main-content\">\n");
+    fprintf(file, "    <main>\n");
+    fprintf(file, "      <h1>%s</h1>\n", title);
+    fprintf(file, "    </main>\n");
+    fprintf(file, "  </div>\n");
+    fprintf(file, "</body>\n");
     return 0;
 }
+
+int headComponents(FILE *file)
+{
+    fprintf(file, "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n");
+    
+    // Put ONLY the spinner styles first
+    fprintf(file, "<style>\n");
+    fprintf(file, "    .spinner-wrapper {\n");
+    fprintf(file, "        position: fixed;\n");
+    fprintf(file, "        top: 0;\n");
+    fprintf(file, "        left: 0;\n");
+    fprintf(file, "        right: 0;\n");
+    fprintf(file, "        bottom: 0;\n");
+    fprintf(file, "        background-color: white;\n");
+    fprintf(file, "        z-index: 999999;\n");
+    fprintf(file, "    }\n");
+    fprintf(file, "    #spinner {\n");
+    fprintf(file, "        position: absolute;\n");
+    fprintf(file, "        top: 50%%;\n");
+    fprintf(file, "        left: 50%%;\n");
+    fprintf(file, "        transform: translate(-50%%, -50%%);\n");
+    fprintf(file, "        width: 50px;\n");
+    fprintf(file, "        height: 50px;\n");
+    fprintf(file, "        border: 6px solid #f3f3f3;\n");
+    fprintf(file, "        border-top: 6px solid #3498db;\n");
+    fprintf(file, "        border-radius: 50%%;\n");
+    fprintf(file, "        animation: spin 1s linear infinite;\n");
+    fprintf(file, "    }\n");
+    fprintf(file, "    @keyframes spin {\n");
+    fprintf(file, "        0%% { transform: translate(-50%%, -50%%) rotate(0deg); }\n");
+    fprintf(file, "        100%% { transform: translate(-50%%, -50%%) rotate(360deg); }\n");
+    fprintf(file, "    }\n");
+    fprintf(file, "    #main-content { display: none; }\n");
+    fprintf(file, "</style>\n");
+
+    // Add immediate loading script
+    fprintf(file, "<script>\n");
+    fprintf(file, "    window.addEventListener('load', function() {\n");
+    fprintf(file, "        document.querySelector('.spinner-wrapper').style.display = 'none';\n");
+    fprintf(file, "        document.getElementById('main-content').style.display = 'block';\n");
+    fprintf(file, "    });\n");
+    fprintf(file, "</script>\n");
+
+    // Then add all other resources
+    fprintf(file, "<meta charset=\"UTF-8\">\n");
+    fprintf(file, "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n");
+    fprintf(file, "<link href=\"https://fonts.googleapis.com/css?family=Krona One\" rel=\"stylesheet\">\n");
+    fprintf(file, "<link rel=\"stylesheet\" type=\"text/css\" href=\"//fonts.googleapis.com/css?family=Anonymous+Pro\">\n");
+    fprintf(file, "<link rel=\"stylesheet\" href=\"styles.css\">\n");
+    fprintf(file, "<script src=\"java.js\" defer></script>\n");
+    fprintf(file, "<title>My Website</title>\n</head>\n");
+    
+    return 0;
+}
+
+
 int printTitle(FILE *file, char *title)
 {
     fprintf(file, "<body>\n\
@@ -76,7 +133,8 @@ char *getValidTitleInput(char *input, size_t maxLength) {
     }
 }
 
-int testForInjection(char *input) {
+int testForInjection(char *input) 
+{
     // Define common XSS patterns
     const char *xssPatterns[] = {
         "<script>",
@@ -89,7 +147,8 @@ int testForInjection(char *input) {
     };
 
     // Check if the input contains any of the XSS patterns
-    for (int i = 0; i < sizeof(xssPatterns) / sizeof(xssPatterns[0]); ++i) {
+    for (int i = 0; i < sizeof(xssPatterns) / sizeof(xssPatterns[0]); ++i) 
+    {
         if (strstr(input, xssPatterns[i]) != NULL) {
             return 1; // XSS injection found
         }

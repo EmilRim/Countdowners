@@ -26,11 +26,11 @@ int headComponents(FILE *file)
     <link\n\
       rel=\"stylesheet\"\n\
       type=\"text/css\"\n\
-      href=\"//fonts.googleapis.com/css?family=Anonymous+Pro\"/>\n\
     <link rel=\"stylesheet\" href=\"styles.css\" />\n\
     <script src=\"java.js\"></script>\n\
     <title>My Website</title>");
     return 0;
+    //href=\"//fonts.googleapis.com/css?family=Anonymous+Pro\"/>\n\ - isemiau sita fonta
 }
 int printTitle(FILE *file, char *title)
 {

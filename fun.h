@@ -35,6 +35,8 @@ int validationForDaysNumber(int number);
  * @note Each string in textStrings must be pre-allocated to hold maxCharNumberInString chars
  * @note Strings in the file must be enclosed in double quotes (")
  * @note Quotes within strings can be escaped using backslash (\")
+ * @note Function tooltip may not display the backslash character correctly. 
+ *       See the header file for complete example with escape sequences.
  *
  * Example file content:
  * "Hello world" "Another string" "String with \"quotes\""

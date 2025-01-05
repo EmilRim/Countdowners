@@ -182,7 +182,7 @@ int getInQuotesTextFromFile(char *fileName, char **textStrings, int maxStringsNu
             }
             if (c == EOF) {
                 fclose(inputFile);
-                return -2;  // Unclosed quote error
+                return -2;
             }
         }
     }

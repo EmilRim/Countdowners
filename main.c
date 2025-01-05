@@ -8,7 +8,7 @@
 
 int main()
 {
-
+    getInQuotesTextFromFile();
    // char title[MAX_LENGTH + 2];
     char* title = NULL;
     int number; //number of days
@@ -41,6 +41,7 @@ int main()
     system("xdg-open test.html");
 #endif
 
+    
     return 0;
 
 }

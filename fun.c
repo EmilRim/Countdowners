@@ -20,6 +20,8 @@ int headComponents(FILE *file)
 {
     fprintf(file, "<!DOCTYPE html>\n\
 <html lang=\" en \">\n<head>\n<meta charset=\" UTF -8 \" />\n<meta name=\" viewport \" content=\" width = device - width,initial - scale = 1.0 \" />\n\
+<meta name=\"description\" content=\"An Advent Calendar\">\n\
+  <meta name=\"author\" content=\"Countdowners\">\n\
 <link\
       href=\"https://fonts.googleapis.com/css?family=Krona One\"\n\
       rel=\"stylesheet\"/>\n\
@@ -30,7 +32,7 @@ int headComponents(FILE *file)
     <script src=\"java.js\"></script>\n\
     <title>My Website</title>");
     return 0;
-    //href=\"//fonts.googleapis.com/css?family=Anonymous+Pro\"/>\n\ - isemiau sita fonta
+    // href=\"//fonts.googleapis.com/css?family=Anonymous+Pro\"/>\n\ - isemiau sita fonta
 }
 int printTitle(FILE *file, char *title)
 {
@@ -39,44 +41,58 @@ int printTitle(FILE *file, char *title)
     fprintf(file, "<h1>%s</h1>", title);
 }
 
-char *getValidTitleInput(char *input, size_t maxLength) {
+char *getValidTitleInput(char *input, size_t maxLength)
+{
     size_t len;
 
-    while (1) {
+    while (1)
+    {
         printf("Enter a string (max %zu characters): ", maxLength);
 
-        if (fgets(input, maxLength + 2, stdin)) {
+        if (fgets(input, maxLength + 2, stdin))
+        {
             len = strlen(input);
-            if (input[len - 1] == '\n') {
+            if (input[len - 1] == '\n')
+            {
                 input[len - 1] = '\0';
                 len--;
-            } else {
+            }
+            else
+            {
                 printf("Input is too long! Please try again.\n");
                 int ch;
-                while ((ch = getchar()) != '\n' && ch != EOF);
+                while ((ch = getchar()) != '\n' && ch != EOF)
+                    ;
                 continue;
             }
 
-            if (len == 0) {
+            if (len == 0)
+            {
                 printf("Title cannot be empty! Please try again.\n");
-            } else {
-                if(!testForInjection(input))
-                return input;
-                else 
+            }
+            else
+            {
+                if (!testForInjection(input))
+                    return input;
+                else
                 {
                     printf("I see you tried to inject something!");
                     return "<script>window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';</script>";
                 }
             }
-        } else {
+        }
+        else
+        {
             printf("Error reading input. Please try again.\n");
             int ch;
-            while ((ch = getchar()) != '\n' && ch != EOF);
+            while ((ch = getchar()) != '\n' && ch != EOF)
+                ;
         }
     }
 }
 
-int testForInjection(char *input) {
+int testForInjection(char *input)
+{
     // Define common XSS patterns
     const char *xssPatterns[] = {
         "<script>",
@@ -85,12 +101,13 @@ int testForInjection(char *input) {
         "onload=",
         "alert(",
         "prompt(",
-        "confirm("
-    };
+        "confirm("};
 
     // Check if the input contains any of the XSS patterns
-    for (int i = 0; i < sizeof(xssPatterns) / sizeof(xssPatterns[0]); ++i) {
-        if (strstr(input, xssPatterns[i]) != NULL) {
+    for (int i = 0; i < sizeof(xssPatterns) / sizeof(xssPatterns[0]); ++i)
+    {
+        if (strstr(input, xssPatterns[i]) != NULL)
+        {
             return 1; // XSS injection found
         }
     }
@@ -99,7 +116,7 @@ int testForInjection(char *input) {
 int dayCounter(FILE *file, int numberOfDays)
 {
     fprintf(file, "<div class=\"grid-container\">\n");
-    for (int i = 1; i <= numberOfDays; ++i) 
+    for (int i = 1; i <= numberOfDays; ++i)
     {
         fprintf(file,
                 "<div class=\"grid-item\">\n"
@@ -107,26 +124,28 @@ int dayCounter(FILE *file, int numberOfDays)
                 "    <img src=\"snowball.svg\">\n"
                 "    <span>%d</span>\n"
                 "  </button>\n"
-                "</div>\n", i);
+                "</div>\n",
+                i);
     }
     fprintf(file, "</div>\n");
 }
 
 int validationForDaysNumber(int number)
 {
-  while(number < MIN_DAYS || number > MAX_DAYS)
+    while (number < MIN_DAYS || number > MAX_DAYS)
     {
         printf("Please enter a number in a range [%d; %d]: ", MIN_DAYS, MAX_DAYS);
         fscanf(stdin, "%d", &number);
     }
 
-  return number;
+    return number;
 }
 
 int getQuotesFromFile(char *fileName, char **textStrings, int maxStringsNumber, int maxCharNumberInString)
 {
     FILE *inputFile = fopen(fileName, "r");
-    if (inputFile == NULL) {
+    if (inputFile == NULL)
+    {
         perror("Error opening file");
         return -1;
     }
@@ -137,11 +156,14 @@ int getQuotesFromFile(char *fileName, char **textStrings, int maxStringsNumber, 
     int bufferSize = 0;
     int stringsFound = 0;
 
-    while (stringsFound < maxStringsNumber) {
+    while (stringsFound < maxStringsNumber)
+    {
 
-        while ((c = fgetc(inputFile)) != EOF && c != '"');
-    
-        if (c == EOF) {
+        while ((c = fgetc(inputFile)) != EOF && c != '"')
+            ;
+
+        if (c == EOF)
+        {
             fclose(inputFile);
             return stringsFound;
         }
@@ -149,19 +171,23 @@ int getQuotesFromFile(char *fileName, char **textStrings, int maxStringsNumber, 
         bufferSize = 0;
         previousC = 0;
 
-        while (bufferSize < maxCharNumberInString - 1){
+        while (bufferSize < maxCharNumberInString - 1)
+        {
 
             c = fgetc(inputFile);
-            if (c == EOF) {
+            if (c == EOF)
+            {
                 fclose(inputFile);
                 return -2;
             }
 
-            if (c == '"' && previousC != '\\') {
+            if (c == '"' && previousC != '\\')
+            {
                 break;
             }
 
-            if (!(previousC == '\\' && c == '"')) {
+            if (!(previousC == '\\' && c == '"'))
+            {
                 buffer[bufferSize++] = c;
             }
             previousC = c;
@@ -173,20 +199,24 @@ int getQuotesFromFile(char *fileName, char **textStrings, int maxStringsNumber, 
         textStrings[stringsFound][maxCharNumberInString - 1] = '\0';
         stringsFound++;
 
-        if (bufferSize >= maxCharNumberInString - 1) {
-            while ((c = fgetc(inputFile)) != EOF) {
-                if (c == '"' && previousC != '\\') {
+        if (bufferSize >= maxCharNumberInString - 1)
+        {
+            while ((c = fgetc(inputFile)) != EOF)
+            {
+                if (c == '"' && previousC != '\\')
+                {
                     break;
                 }
                 previousC = c;
             }
-            if (c == EOF) {
+            if (c == EOF)
+            {
                 fclose(inputFile);
                 return -2;
             }
         }
     }
-        
+
     fclose(inputFile);
     return stringsFound;
 }
@@ -194,7 +224,8 @@ int getQuotesFromFile(char *fileName, char **textStrings, int maxStringsNumber, 
 int getStringsFromFile(char *fileName, char **textStrings, int maxStringsNumber, int maxCharNumberInString)
 {
     FILE *inputFile = fopen(fileName, "r");
-    if (inputFile == NULL) {
+    if (inputFile == NULL)
+    {
         perror("Error opening file");
         return -1;
     }
@@ -204,18 +235,22 @@ int getStringsFromFile(char *fileName, char **textStrings, int maxStringsNumber,
     int bufferSize = 0;
     int stringsFound = 0;
 
-    while (stringsFound < maxStringsNumber) {
+    while (stringsFound < maxStringsNumber)
+    {
 
         c = fgetc(inputFile);
-        while (c == '\n' || c == ' ') {
+        while (c == '\n' || c == ' ')
+        {
             c = fgetc(inputFile);
         }
 
         bufferSize = 0;
 
-        while (bufferSize < maxCharNumberInString - 1){
+        while (bufferSize < maxCharNumberInString - 1)
+        {
 
-            if (c == '\n' || c == EOF) {
+            if (c == '\n' || c == EOF)
+            {
                 break;
             }
 
@@ -229,40 +264,44 @@ int getStringsFromFile(char *fileName, char **textStrings, int maxStringsNumber,
         textStrings[stringsFound][maxCharNumberInString - 1] = '\0';
         stringsFound++;
 
-        if(c == EOF){
+        if (c == EOF)
+        {
             break;
         }
 
-        if (bufferSize >= maxCharNumberInString - 1) {
-            while ((c = fgetc(inputFile)) != EOF) {
-                if (c == '\n') {
+        if (bufferSize >= maxCharNumberInString - 1)
+        {
+            while ((c = fgetc(inputFile)) != EOF)
+            {
+                if (c == '\n')
+                {
                     break;
                 }
             }
-            if (c == EOF) {
+            if (c == EOF)
+            {
                 fclose(inputFile);
                 return stringsFound;
             }
         }
-
     }
-        
+
     fclose(inputFile);
     return stringsFound;
 }
 
-void openHtml(const char* filename)
+void openHtml(const char *filename)
 {
     char command[256];
 
-    #ifdef _WIN32
-        snprintf(command, sizeof(command), "start %s", filename);
-        system(command);
-    #elif __APPLE__
-        snprintf(command, sizeof(command), "open %s", filename);
-        system(command);
-    #else
-        snprintf(command, sizeof(command), "xdg-open %s", filename);
-        system(command);
-    #endif
+#ifdef _WIN32
+    snprintf(command, sizeof(command), "start %s", filename);
+    system(command);
+#elif __APPLE__
+    snprintf(command, sizeof(command), "open %s", filename);
+    system(command);
+#else
+    snprintf(command, sizeof(command), "xdg-open %s", filename);
+    system(command);
+#endif
 }

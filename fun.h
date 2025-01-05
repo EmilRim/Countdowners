@@ -6,8 +6,80 @@
 
 FILE *openFile(char *);
 int body(FILE *, char *);
+/**
+* @brief Gets and validates user input for a title field with XSS protection.
+*
+* Prompts the user to enter a string and performs validation including:
+* - Length checking against maximum allowed length
+* - Empty string prevention
+* - XSS attack pattern detection
+* - Input buffer overflow prevention
+*
+* @param input      Pre-allocated buffer to store the input string
+* @param maxLength  Maximum allowed length of input string (excluding null terminator)
+*
+* @return 
+* - Pointer to validated input string if successful
+* - Pointer to rick-roll script if XSS attack is detected
+* - Will continue prompting until valid input is received
+*
+* @note Automatically trims trailing newline from input
+* @note Clears input buffer on overflow attempts
+* @note Requires testForInjection() function for XSS detection
+*
+* #### Example usage:
+* ```c
+* char buffer[100];
+* char *title = getValidTitleInput(buffer, 99);
+* printf("Validated title: %s\n", title);
+* ```
+*
+* #### Input handling:
+* - Empty input -> Prompts for retry
+* - Too long -> Clears buffer and prompts for retry
+* - XSS attempt -> Returns rick-roll script
+* - Valid input -> Returns sanitized string
+*/
 char* getValidTitleInput(char *, size_t);
-int testForInjection(char *);
+
+/**
+ * @brief Detects potential XSS (Cross-Site Scripting) attacks in input strings with whitespace normalization.
+ *
+ * Examines input strings for malicious patterns while accounting for common evasion techniques.
+ * Performs case-insensitive matching and removes all whitespace characters (spaces, tabs, newlines)
+ * before checking against known XSS patterns. Also detects hexadecimal encoding commonly used
+ * in attacks.
+ *
+ * @param input    Null-terminated string to check for XSS patterns
+ *
+ * @return
+ *   - 1  if potential XSS is detected
+ *   - 0  if input appears safe
+ *   - -1 if error occurs (NULL input or memory allocation failure)
+ *
+ * @note This function detects both standard and whitespace-obfuscated attacks
+ * @note Memory is dynamically allocated and freed within the function
+ * @note Case-insensitive matching is performed on all patterns
+ *
+ * #### Example usage:
+ * ```c
+ * const char* input = "< s c r i p t >alert(1)</script>";
+ * switch(detectXSSAttack(input)) {
+ *     case 1:  printf("XSS detected\n"); break;
+ *     case 0:  printf("Input is safe\n"); break;
+ *     case -1: printf("Error occurred\n"); break;
+ * }
+ * ```
+ *
+ * #### Attack patterns detected include:
+ * - Script tags and events (e.g., <script>, onclick)
+ * - JavaScript protocols and functions
+ * - DOM manipulation methods
+ * - HTML entities and encoding
+ * - CSS expression patterns
+ * - Encoded character sequences
+ */
+int detectXSSAttack(const char*);
 
 /**
  * @brief Extracts strings from a file and stores them in an array.

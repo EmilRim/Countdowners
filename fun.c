@@ -85,27 +85,77 @@ char * getValidTitleInput(char *input, size_t maxLength)
     }
 }
 
-int testForInjection(char *input)
-{
-    // Define common XSS patterns
-    const char *xssPatterns[] = {
-        "<script>",
-        "javascript:",
-        "onerror=",
-        "onload=",
-        "alert(",
-        "prompt(",
-        "confirm("};
-
-    // Check if the input contains any of the XSS patterns
-    for (int i = 0; i < sizeof(xssPatterns) / sizeof(xssPatterns[0]); ++i)
-    {
-        if (strstr(input, xssPatterns[i]) != NULL)
-        {
-            return 1; // XSS injection found
+int detectXSSAttack(const char* input) {
+    if (!input) return -1;  // Handle NULL input
+    
+    // Common XSS patterns to check
+    const char* patterns[] = {
+        "<script", "javascript:", "vbscript:", "data:",
+        "onerror=", "onload=", "onmouseover=", "onclick=",
+        "onmouseout=", "ondblclick=", "onkeypress=", "onkeydown=",
+        "onkeyup=", "onsubmit=", "onready=", "onchange=",
+        "alert(", "prompt(", "confirm(", "eval(",
+        "execute(", "setTimeout(", "setInterval(", "new function(",
+        "<img", "<iframe", "<embed", "<object",
+        "document.cookie", "document.write", "document.location",
+        "window.location", "innerHTML", "outerHTML",
+        ".href=", "\\x", "\\u", "&#",
+        "expression(", "url(", "/*", "-->", "]]>"
+    };
+    const int patternCount = sizeof(patterns) / sizeof(patterns[0]);
+    
+    // Allocate memory for normalized string (lowercase, no whitespace)
+    size_t len = strlen(input);
+    char* normalized = (char*)malloc(len + 1);
+    if (!normalized) return -1;  // Memory allocation failed
+    
+    // Normalize the input string: convert to lowercase and remove whitespace
+    int j = 0;
+    for (size_t i = 0; i < len; i++) {
+        if (!isspace(input[i])) {
+            normalized[j++] = tolower(input[i]);
         }
     }
-    return 0; // No XSS injection detected
+    normalized[j] = '\0';
+    
+    // Check for hexadecimal encoding patterns (%XX)
+    for (int i = 0; normalized[i + 2] != '\0'; i++) {
+        if (normalized[i] == '%' && 
+            isxdigit(normalized[i + 1]) && 
+            isxdigit(normalized[i + 2])) {
+            free(normalized);
+            return 1;  // Suspicious encoding found
+        }
+    }
+    
+    // Check for all patterns
+    for (int i = 0; i < patternCount; i++) {
+        // Create lowercase version of pattern
+        size_t pattern_len = strlen(patterns[i]);
+        char* pattern_lower = (char*)malloc(pattern_len + 1);
+        if (!pattern_lower) {
+            free(normalized);
+            return -1;  // Memory allocation failed
+        }
+        
+        // Convert pattern to lowercase
+        for (size_t k = 0; k < pattern_len; k++) {
+            pattern_lower[k] = tolower(patterns[i][k]);
+        }
+        pattern_lower[pattern_len] = '\0';
+        
+        // Check if pattern exists in normalized input
+        if (strstr(normalized, pattern_lower) != NULL) {
+            free(pattern_lower);
+            free(normalized);
+            return 1;  // XSS pattern found
+        }
+        
+        free(pattern_lower);
+    }
+    
+    free(normalized);
+    return 0;  // No XSS detected
 }
 
 

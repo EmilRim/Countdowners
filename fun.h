@@ -16,11 +16,37 @@ int dayCounter(FILE *file, int numberOfDays);
 int validationForDaysNumber(int number);
 
 /**
+ * @brief Extracts strings from a file and stores them in an array.
+ *
+ * Reads strings (delimited by newlines) from the specified file and writes them
+ * to the provided string array. Each string is truncated to `maxCharNumberInString - 1`
+ * characters plus a null terminator. Leading whitespace (spaces and newlines) is skipped.
+ *
+ * @param fileName                Name of the input file to read from
+ * @param textStrings             Pre-allocated array of strings to store the results
+ * @param maxStringsNumber        Maximum number of strings that can be stored in textStrings
+ * @param maxCharNumberInString   Maximum length of each string (including the null terminator)
+ *
+ * @return Number of strings successfully read and stored (≥ 0), or -1 if the file could not be opened
+ *
+ * @note Each string in textStrings must be pre-allocated to hold `maxCharNumberInString` characters
+ * @note Strings in the file should be separated by newlines
+ * @note Leading whitespace characters are ignored
+ *
+ * #### Example file content:
+ * ```
+ * Hello world
+ * Another string
+ * ```
+ */
+int getStringsFromFile(char *fileName, char **textStrings, int maxStringsNumber, int maxCharNumberInString);
+
+/**
  * @brief Extracts quoted strings from a file into a string array.
  *
  * Reads strings enclosed in double quotes from the specified file and writes them
  * to the provided string array. If a quoted string exceeds the maximum length,
- * it will be truncated to `maxCharNumberInString-1` characters plus a null terminator.
+ * it will be truncated to `maxCharNumberInString - 1` characters plus a null terminator.
  * Escaped quotes (\") within strings are handled properly.
  *
  * @param fileName                Name of the input file to read from
@@ -41,7 +67,7 @@ int validationForDaysNumber(int number);
  * Example file content:
  * "Hello world" "Another string" "String with \"quotes\""
  */
-int getInQuotesTextFromFile(char *fileName, char **textStrings, int maxStrings, int maxCharNumberInString);
+int getQuotesFromFile(char *fileName, char **textStrings, int maxStrings, int maxCharNumberInString);
 
 /**
  * @brief Opens an HTML file in the default web browser.

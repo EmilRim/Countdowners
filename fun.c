@@ -123,7 +123,7 @@ int validationForDaysNumber(int number)
   return number;
 }
 
-int getInQuotesTextFromFile(char *fileName, char **textStrings, int maxStringsNumber, int maxCharNumberInString)
+int getQuotesFromFile(char *fileName, char **textStrings, int maxStringsNumber, int maxCharNumberInString)
 {
     FILE *inputFile = fopen(fileName, "r");
     if (inputFile == NULL) {
@@ -184,6 +184,53 @@ int getInQuotesTextFromFile(char *fileName, char **textStrings, int maxStringsNu
                 fclose(inputFile);
                 return -2;
             }
+        }
+    }
+        
+    fclose(inputFile);
+    return stringsFound;
+}
+
+int getStringsFromFile(char *fileName, char **textStrings, int maxStringsNumber, int maxCharNumberInString)
+{
+    FILE *inputFile = fopen(fileName, "r");
+    if (inputFile == NULL) {
+        perror("Error opening file");
+        return -1;
+    }
+
+    char buffer[maxCharNumberInString];
+    char c = 0;
+    int bufferSize = 0;
+    int stringsFound = 0;
+
+    while (stringsFound < maxStringsNumber) {
+
+        c = fgetc(inputFile);
+        while (c == '\n' || c == ' ') {
+            c = fgetc(inputFile);
+        }
+
+        bufferSize = 0;
+
+        while (bufferSize < maxCharNumberInString - 1){
+
+            if (c == '\n' || c == EOF) {
+                break;
+            }
+
+            buffer[bufferSize++] = c;
+            c = fgetc(inputFile);
+        }
+
+        buffer[bufferSize] = '\0';
+
+        strncpy(textStrings[stringsFound], buffer, maxCharNumberInString - 1);
+        textStrings[stringsFound][maxCharNumberInString - 1] = '\0';
+        stringsFound++;
+
+        if(c == EOF){
+            break;
         }
     }
         

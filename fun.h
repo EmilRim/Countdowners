@@ -20,7 +20,7 @@ int validationForDaysNumber(int number);
  *
  * Reads strings enclosed in double quotes from the specified file and writes them
  * to the provided string array. If a quoted string exceeds the maximum length,
- * it will be truncated to maxCharNumberInString-1 characters plus a null terminator.
+ * it will be truncated to `maxCharNumberInString-1` characters plus a null terminator.
  * Escaped quotes (\") within strings are handled properly.
  *
  * @param fileName                Name of the input file to read from
@@ -32,7 +32,7 @@ int validationForDaysNumber(int number);
  *         -1 if the file could not be opened
  *         -2 if the file has an unmatched quotation mark
  *
- * @note Each string in textStrings must be pre-allocated to hold maxCharNumberInString chars
+ * @note Each string in `textStrings` must be pre-allocated to hold `maxCharNumberInString` chars
  * @note Strings in the file must be enclosed in double quotes (")
  * @note Quotes within strings can be escaped using backslash (\")
  * @note Function tooltip may not display the backslash character correctly. 
@@ -42,5 +42,39 @@ int validationForDaysNumber(int number);
  * "Hello world" "Another string" "String with \"quotes\""
  */
 int getInQuotesTextFromFile(char *fileName, char **textStrings, int maxStrings, int maxCharNumberInString);
+
+/**
+ * @brief Opens an HTML file in the default web browser.
+ *
+ * Executes a system command to open the specified HTML file using the default web browser, 
+ * with support for Windows, macOS, and Linux platforms. 
+ * The function constructs a platform-specific command string to launch the file.
+ *
+ * @param filename   Path to the HTML file to be opened.
+ *
+ * @note The function uses the `system` call to execute the command, which may pose 
+ *       security risks if `filename` is not sanitized properly. Ensure `filename` is 
+ *       trusted and validated before calling this function.
+ * @note The command buffer size is limited to 256 characters.
+ *
+ * 
+ * #### Supported platforms:
+ * 
+ * Windows
+ *   (uses the `start` command),
+ * 
+ * macOS
+ *   (uses the `open` command),
+ * 
+ * Linux
+ *   (uses the `xdg-open` command).
+ *
+ * #### Example usage:
+ * ```c
+ * openHtml("example.html"); // Opens "example.html" in the default browser.
+ * ```
+ */
+void openHtml(const char* filename);
+
 
 #endif

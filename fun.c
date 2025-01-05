@@ -190,3 +190,19 @@ int getInQuotesTextFromFile(char *fileName, char **textStrings, int maxStringsNu
     fclose(inputFile);
     return stringsFound;
 }
+
+void openHtml(const char* filename)
+{
+    char command[256];
+
+    #ifdef _WIN32
+        snprintf(command, sizeof(command), "start %s", filename);
+        system(command);
+    #elif __APPLE__
+        snprintf(command, sizeof(command), "open %s", filename);
+        system(command);
+    #else
+        snprintf(command, sizeof(command), "xdg-open %s", filename);
+        system(command);
+    #endif
+}

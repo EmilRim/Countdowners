@@ -1,5 +1,5 @@
-#ifndef HEAD_H
-#define HEAD_H
+#ifndef WEBFUN_H
+#define WEBFUN_H
 
 #include <stdio.h>
 

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include "fun.h"
+#include "sec.h"
 
 int headComponents(FILE *file)
 {
@@ -20,7 +20,6 @@ int headComponents(FILE *file)
     <script src=\"java.js\"></script>\n\
     <title>My Website</title>");
     return 0;
-    // href=\"//fonts.googleapis.com/css?family=Anonymous+Pro\"/>\n\ - isemiau sita fonta
 }
 
 int printTitle(FILE *file, char *title)

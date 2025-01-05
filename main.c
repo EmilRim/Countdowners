@@ -1,26 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdlib.h>
 #include "head.h"
 
 int main()
 {
+    char **strings = (char**)malloc(sizeof(char*) * 10);
+    
+    for(int i = 0; i < 10; ++i){
+        strings[i] = (char*)malloc(sizeof(char) * 64);
+    }
 
-    char buttonImg[32], bottomImg[32], backgroundColor[64], fontColor[32];
+    int a = getInQuotesTextFromFile("test.txt", strings, 10, 64);
 
-    getTheme(buttonImg, bottomImg, backgroundColor, fontColor);
+    printf("%d\n", a);
 
-    printf("%s\n%s\n%s\n%s\n\n", buttonImg, bottomImg, backgroundColor, fontColor);
-
+    for(int i = 0; i < a; ++i){
+        printf("%s\n", strings[i]);
+    }
     return 0;
 }
-
-/*
-    <style>
-        body {
-            background: VARIABLE;
-        }
-        .grid-item button span {
-            color: VARIABLE;
-        }
-    </style>
-*/

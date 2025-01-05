@@ -1,39 +1,74 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
+#include <stdlib.h>
 #include "head.h"
 
-void getTheme(char *buttonImg, char *bottomImg, char *backgroundColor, char *fontColor)
+
+int getInQuotesTextFromFile(char *fileName, char **textStrings, int maxStringsNumber, int maxCharNumberInString)
 {
-    int theme = 0;
+    FILE *inputFile = fopen(fileName, "r");
+    if (inputFile == NULL) {
+        perror("Error opening file");
+        return -1;
+    }
 
-    while (1) {
-        printf("Nustatykite svetainės temą (įrašykite tik skaičių):\n");
-        printf("1. Snow\n");
-        printf("2. Christmas\n");
+    char buffer[maxCharNumberInString];
+    char c = 0;
+    char previousC = 0;
+    int bufferSize = 0;
+    int stringsFound = 0;
 
-        if (scanf("%d", &theme) == 1 && (getchar() == '\n')) {
-            if (theme >= 1 && theme <= 2) {
-                break;
-            } else {
-                printf("\nNetinkama įvestis. Turi būti skaičius 1 arba 2.\n");
+    while (stringsFound < maxStringsNumber) {
+
+        while ((c = fgetc(inputFile)) != EOF && c != '"');
+    
+        if (c == EOF) {
+            fclose(inputFile);
+            return stringsFound;
+        }
+
+        bufferSize = 0;
+        previousC = 0;
+
+        while (bufferSize < maxCharNumberInString - 1){
+
+            c = fgetc(inputFile);
+            if (c == EOF) {
+                fclose(inputFile);
+                return -2;
             }
-        } else {
-            printf("Netinkama įvestis. Prašome įvesti skaičių.\n");
-            while (getchar() != '\n');
+
+            if (c == '"' && previousC != '\\') {
+                break;
+            }
+
+            if (!(previousC == '\\' && c == '"')) {
+                buffer[bufferSize++] = c;
+            }
+            previousC = c;
+        }
+
+        buffer[bufferSize] = '\0';
+
+        strncpy(textStrings[stringsFound], buffer, maxCharNumberInString - 1);
+        textStrings[stringsFound][maxCharNumberInString - 1] = '\0';
+        stringsFound++;
+
+        if (bufferSize >= maxCharNumberInString - 1) {
+            while ((c = fgetc(inputFile)) != EOF) {
+                if (c == '"' && previousC != '\\') {
+                    break;
+                }
+                previousC = c;
+            }
+            if (c == EOF) {
+                fclose(inputFile);
+                return -2;  // Unclosed quote error
+            }
         }
     }
-
-    if(theme == 2){
-        strcpy(buttonImg, "\"present.svg\"");
-        strcpy(bottomImg, "\"lights.svg\"");
-        strcpy(backgroundColor, "#562923");
-        strcpy(fontColor, "rgb(255, 255, 255)");
-    }
-    else {
-        strcpy(buttonImg, "\"snowball.svg\"");
-        strcpy(bottomImg, "\"trees.svg\"");
-        strcpy(backgroundColor, "linear-gradient(#6E8D97 0\%, #C3D0D5 40\%, #DEE4E6 100\%)");
-        strcpy(fontColor, "rgb(64, 136, 140)");
-    }
-    
+        
+    fclose(inputFile);
+    return stringsFound;
 }

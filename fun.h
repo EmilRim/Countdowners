@@ -3,9 +3,33 @@
 
 #include <stdio.h>
 
-
+/**
+* @brief Opens a file in write mode with error checking.
+*
+* Attempts to open the specified file for writing. If the file cannot be opened,
+* prints an error message with details about the failure using perror().
+*
+* @param name    Name/path of the file to open for writing
+*
+* @return
+* - FILE pointer to the opened file if successful
+* - 0 (NULL) if file opening fails
+*
+* @note Opens file in write mode ("w") which will:
+*       - Create new file if it doesn't exist
+*       - Truncate existing file if it exists
+* @note Caller is responsible for closing the file when done
+*
+* #### Example usage:
+* ```c
+* FILE *fp = openFile("output.txt");
+* if (fp) {
+*     fprintf(fp, "Some text");
+*     fclose(fp);
+* }
+* ```
+*/
 FILE *openFile(char *);
-int body(FILE *, char *);
 /**
 * @brief Gets and validates user input for a title field with XSS protection.
 *

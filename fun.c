@@ -232,6 +232,19 @@ int getStringsFromFile(char *fileName, char **textStrings, int maxStringsNumber,
         if(c == EOF){
             break;
         }
+
+        if (bufferSize >= maxCharNumberInString - 1) {
+            while ((c = fgetc(inputFile)) != EOF) {
+                if (c == '\n') {
+                    break;
+                }
+            }
+            if (c == EOF) {
+                fclose(inputFile);
+                return stringsFound;
+            }
+        }
+
     }
         
     fclose(inputFile);

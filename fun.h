@@ -1,11 +1,10 @@
-#ifndef HEAD_H
-#define HEAD_H
+#ifndef WEBFUN_H
+#define WEBFUN_H
 
 #include <stdio.h>
 
 
 FILE *openFile(char *);
-int body(FILE *, char *);
 char* getValidTitleInput(char *, size_t);
 int testForInjection(char *);
 

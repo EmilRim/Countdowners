@@ -10,29 +10,10 @@ FILE *openFile(char *name)
     FILE *file = fopen(name, "w");
     if (file == NULL)
     {
-        perror("whoossie");
+        perror("Error opening file");
         return 0;
     }
     return file;
-}
-
-int headComponents(FILE *file)
-{
-    fprintf(file, "<!DOCTYPE html>\n\
-<html lang=\" en \">\n<head>\n<meta charset=\" UTF -8 \" />\n<meta name=\" viewport \" content=\" width = device - width,initial - scale = 1.0 \" />\n\
-<meta name=\"description\" content=\"An Advent Calendar\">\n\
-  <meta name=\"author\" content=\"Countdowners\">\n\
-<link\
-      href=\"https://fonts.googleapis.com/css?family=Krona One\"\n\
-      rel=\"stylesheet\"/>\n\
-    <link\n\
-      rel=\"stylesheet\"\n\
-      type=\"text/css\"\n\
-    <link rel=\"stylesheet\" href=\"styles.css\" />\n\
-    <script src=\"java.js\"></script>\n\
-    <title>My Website</title>");
-    return 0;
-    // href=\"//fonts.googleapis.com/css?family=Anonymous+Pro\"/>\n\ - isemiau sita fonta
 }
 
 char * getValidTitleInput(char *input, size_t maxLength)

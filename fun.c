@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
@@ -47,7 +48,7 @@ char * getValidTitleInput(char *input, size_t maxLength)
             }
             else
             {
-                if (!testForInjection(input))
+                if (!detectXSSAttack(input))
                     return input;
                 else
                 {

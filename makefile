@@ -1,2 +1,2 @@
-create: main.c fun.c fun.h
-	gcc -o create main.c fun.c fun.h -I.
+create: main.c fun.c fun.h sec.c sec.h
+	gcc -o create main.c fun.c fun.h sec.c sec.h -I.

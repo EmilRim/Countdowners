@@ -27,8 +27,15 @@ int main()
         return 0;
     }
 
+
+    char buttonImg[64];
+    char bottomImg[64];
+    char backgroundColor[64];
+    char fontColor[64];
+    getTheme(buttonImg, bottomImg, backgroundColor, fontColor);
+
     // Write head section
-    headComponents(file);
+    headComponents(file, backgroundColor, fontColor);
     fprintf(file, "\n  </head>");
 
     // Get valid title input
@@ -38,15 +45,19 @@ int main()
     printTitle(file, title);
 
     // Prompt and validate the number of days
-    printf("Kiek dienų?\n");
+    printf("Number of days: ");
     fscanf(stdin, "%d", &number);
     number = validationForDaysNumber(number);
 
     // Write days counter
-    dayCounter(file, number);
+    dayCounter(file, number, buttonImg);
+
+    insertBottomImg(file, bottomImg);
 
     // Finalize HTML structure
-    fprintf(file, "\n</main>\n</div>\n</body>");
+    fprintf(file, "\n</main>\n");
+    popUpAppear(file);
+    fprintf(file, "</body>");
     fprintf(file, "\n</html>");
     fclose(file);
 

@@ -2,7 +2,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(#6e8d97 0%, #c3d0d5 40%, #dee4e6 100%);
   font-size: 24px;
   margin: 0;
   padding: 0;
@@ -63,7 +62,6 @@ h1 {
   z-index: 2;
   font-size: 2.3em;
   font-weight: bold;
-  color: rgb(78, 85, 115);
   text-align: center;
   pointer-events: none;
   top: 50%;

@@ -4,21 +4,41 @@
 #include <string.h>
 #include "sec.h"
 
-int headComponents(FILE *file)
+int headComponents(FILE *file, char *backgroundColor, char *fontColor)
 {
-    fprintf(file, "<!DOCTYPE html>\n\
-<html lang=\" en \">\n<head>\n<meta charset=\" UTF -8 \" />\n<meta name=\" viewport \" content=\" width = device - width,initial - scale = 1.0 \" />\n\
-<meta name=\"description\" content=\"An Advent Calendar\">\n\
-  <meta name=\"author\" content=\"Countdowners\">\n\
-<link\
-      href=\"https://fonts.googleapis.com/css?family=Krona One\"\n\
-      rel=\"stylesheet\"/>\n\
-    <link\n\
-      rel=\"stylesheet\"\n\
-      type=\"text/css\"\n\
-    <link rel=\"stylesheet\" href=\"styles.css\" />\n\
-    <script src=\"java.js\"></script>\n\
-    <title>My Website</title>");
+    fprintf(file,
+"<!DOCTYPE html>\n"
+"   <html lang=\"en>\"\n"
+"   <head>\n"
+"   <meta charset=\"UTF-8\"/>\n"
+"   <meta name=\" viewport \" content=\" width = device - width,initial - scale = 1.0\"/>\n"
+"   <meta name=\"description\" content=\"An Advent Calendar\"/>\n"
+"   <meta name=\"author\" content=\"Countdowners\"/>\n"
+
+"   <link\n"
+"       href=\"https://fonts.googleapis.com/css?family=Krona One\"\n"
+"       rel=\"stylesheet\"\n"
+"   />\n"
+"   <link\n"     
+"       rel=\"stylesheet\"\n"
+"       type=\"text/css\"\n" 
+"   />\n"
+
+"   <style>\n"
+"       body {\n"
+"           background: %s;\n"
+"       }\n"
+"       .grid-item button span {\n"
+"           color: %s;\n"
+"       }\n"
+"   </style> \n"
+    
+"   <link rel=\"stylesheet\" href=\"styles.css\" />\n"
+"   <script src=\"java.js\"></script>\n"
+"   <title>My Website</title>",
+    
+    backgroundColor, fontColor);
+    
     return 0;
 }
 
@@ -29,7 +49,7 @@ int printTitle(FILE *file, char *title)
     fprintf(file, "<h1>%s</h1>", title);
 }
 
-int dayCounter(FILE *file, int numberOfDays)
+int dayCounter(FILE *file, int numberOfDays, char* buttonImg)
 {
     fprintf(file, "<div class=\"grid-container\">\n");
     for (int i = 1; i <= numberOfDays; ++i)
@@ -37,11 +57,11 @@ int dayCounter(FILE *file, int numberOfDays)
         fprintf(file,
                 "<div class=\"grid-item\">\n"
                 "  <button onclick=\"openPopup('First button popup text')\">\n"
-                "    <img src=\"snowball.svg\">\n"
+                "    <img src=%s>\n"
                 "    <span>%d</span>\n"
                 "  </button>\n"
                 "</div>\n",
-                i);
+                buttonImg, i);
     }
     fprintf(file, "</div>\n");
 }
@@ -81,7 +101,7 @@ void getTheme(char *buttonImg, char *bottomImg, char *backgroundColor, char *fon
     if(theme == 2){
         strcpy(buttonImg, "\"present.svg\"");
         strcpy(bottomImg, "\"lights.svg\"");
-        strcpy(backgroundColor, "#562923");
+        strcpy(backgroundColor, "linear-gradient(#562923 0\%, #562923 40\%, #562923 100\%)");
         strcpy(fontColor, "rgb(255, 255, 255)");
     }
     else {
@@ -91,4 +111,24 @@ void getTheme(char *buttonImg, char *bottomImg, char *backgroundColor, char *fon
         strcpy(fontColor, "rgb(64, 136, 140)");
     }
     
+}
+
+void insertBottomImg(FILE *file, char *bottomImg)
+{
+    fprintf(file,
+    "   <div class=\"trees\">\n"
+    "       <img src=%s alt=\"BottomImg\">\n"
+    "   </div>\n",
+    bottomImg);
+}
+
+void popUpAppear(FILE *file)
+{
+    fprintf(file,
+    "   <div class=\"popup-overlay\" id=\"popupOverlay\"></div>\n"
+    "   <div class=\"popup\" id=\"popup\">\n"
+    "       <p id=\"popupText\"></p>\n"
+    "       <button onclick=\"togglePopup()\">Close</button>\n"
+    "   </div>"
+    );
 }

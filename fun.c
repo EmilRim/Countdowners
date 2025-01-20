@@ -21,6 +21,8 @@ char * getValidTitleInput(char *input, size_t maxLength)
 {
     size_t len;
 
+    printf("Choose a name for your wesite.\n");
+
     while (1)
     {
         printf("Enter a string (max %zu characters): ", maxLength);

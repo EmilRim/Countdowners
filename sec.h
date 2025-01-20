@@ -10,5 +10,6 @@ int headComponents(FILE *file);
 int printTitle(FILE *file, char *title);
 int dayCounter(FILE *file, int numberOfDays);
 int validationForDaysNumber(int number);
+void getTheme(char *buttonImg, char *bottomImg, char *backgroundColor, char *fontColor);
 
 #endif

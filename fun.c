@@ -5,7 +5,6 @@
 #include <string.h>
 #include "fun.h"
 
-// programos funkcijos
 FILE *openFile(char *name)
 {
     FILE *file = fopen(name, "w");
@@ -17,7 +16,7 @@ FILE *openFile(char *name)
     return file;
 }
 
-char * getValidTitleInput(char *input, size_t maxLength)
+char *getValidTitleInput(char *input, size_t maxLength)
 {
     size_t len;
 
@@ -69,11 +68,13 @@ char * getValidTitleInput(char *input, size_t maxLength)
     }
 }
 
-int detectXSSAttack(const char* input) {
-    if (!input) return -1;  // Handle NULL input
-    
+int detectXSSAttack(const char *input)
+{
+    if (!input)
+        return -1; // Handle NULL input
+
     // Common XSS patterns to check
-    const char* patterns[] = {
+    const char *patterns[] = {
         "<script", "javascript:", "vbscript:", "data:",
         "onerror=", "onload=", "onmouseover=", "onclick=",
         "onmouseout=", "ondblclick=", "onkeypress=", "onkeydown=",
@@ -84,64 +85,71 @@ int detectXSSAttack(const char* input) {
         "document.cookie", "document.write", "document.location",
         "window.location", "innerHTML", "outerHTML",
         ".href=", "\\x", "\\u", "&#",
-        "expression(", "url(", "/*", "-->", "]]>"
-    };
+        "expression(", "url(", "/*", "-->", "]]>"};
     const int patternCount = sizeof(patterns) / sizeof(patterns[0]);
-    
+
     // Allocate memory for normalized string (lowercase, no whitespace)
     size_t len = strlen(input);
-    char* normalized = (char*)malloc(len + 1);
-    if (!normalized) return -1;  // Memory allocation failed
-    
+    char *normalized = (char *)malloc(len + 1);
+    if (!normalized)
+        return -1; // Memory allocation failed
+
     // Normalize the input string: convert to lowercase and remove whitespace
     int j = 0;
-    for (size_t i = 0; i < len; i++) {
-        if (!isspace(input[i])) {
+    for (size_t i = 0; i < len; i++)
+    {
+        if (!isspace(input[i]))
+        {
             normalized[j++] = tolower(input[i]);
         }
     }
     normalized[j] = '\0';
-    
+
     // Check for hexadecimal encoding patterns (%XX)
-    for (int i = 0; normalized[i + 2] != '\0'; i++) {
-        if (normalized[i] == '%' && 
-            isxdigit(normalized[i + 1]) && 
-            isxdigit(normalized[i + 2])) {
+    for (int i = 0; normalized[i + 2] != '\0'; i++)
+    {
+        if (normalized[i] == '%' &&
+            isxdigit(normalized[i + 1]) &&
+            isxdigit(normalized[i + 2]))
+        {
             free(normalized);
-            return 1;  // Suspicious encoding found
+            return 1; // Suspicious encoding found
         }
     }
-    
+
     // Check for all patterns
-    for (int i = 0; i < patternCount; i++) {
+    for (int i = 0; i < patternCount; i++)
+    {
         // Create lowercase version of pattern
         size_t pattern_len = strlen(patterns[i]);
-        char* pattern_lower = (char*)malloc(pattern_len + 1);
-        if (!pattern_lower) {
+        char *pattern_lower = (char *)malloc(pattern_len + 1);
+        if (!pattern_lower)
+        {
             free(normalized);
-            return -1;  // Memory allocation failed
+            return -1; // Memory allocation failed
         }
-        
+
         // Convert pattern to lowercase
-        for (size_t k = 0; k < pattern_len; k++) {
+        for (size_t k = 0; k < pattern_len; k++)
+        {
             pattern_lower[k] = tolower(patterns[i][k]);
         }
         pattern_lower[pattern_len] = '\0';
-        
+
         // Check if pattern exists in normalized input
-        if (strstr(normalized, pattern_lower) != NULL) {
+        if (strstr(normalized, pattern_lower) != NULL)
+        {
             free(pattern_lower);
             free(normalized);
-            return 1;  // XSS pattern found
+            return 1; // XSS pattern found
         }
-        
+
         free(pattern_lower);
     }
-    
-    free(normalized);
-    return 0;  // No XSS detected
-}
 
+    free(normalized);
+    return 0; // No XSS detected
+}
 
 int getQuotesFromFile(char *fileName, char **textStrings, int maxStringsNumber, int maxCharNumberInString)
 {

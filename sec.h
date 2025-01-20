@@ -8,7 +8,7 @@
 
 int headComponents(FILE *file, char *backgroundColor, char *fontColor);
 int printTitle(FILE *file, char *title);
-int dayCounter(FILE *file, int numberOfDays, char* buttonImg);
+int dayCounter(FILE *file, int numberOfDays, char *buttonImg);
 int validationForDaysNumber(int number);
 void getTheme(char *buttonImg, char *bottomImg, char *backgroundColor, char *fontColor);
 void insertBottomImg(FILE *file, char *bottomImg);

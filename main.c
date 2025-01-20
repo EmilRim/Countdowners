@@ -4,7 +4,7 @@
 #include <string.h>
 #include "fun.h"
 #include "sec.h"
-#define MAX_LENGTH 20
+#define MAX_LENGTH 25
 
 int main()
 {
@@ -20,7 +20,7 @@ int main()
     }
 
     // Open file for writing HTML
-    FILE *file = openFile("test.html");
+    FILE *file = openFile("calendar.html");
     if (!file)
     {
         free(title);
@@ -65,7 +65,7 @@ int main()
     free(title);
 
     // Open the HTML file in the default browser
-    openHtml("test.html");
+    openHtml("calendar.html");
 
     return 0;
 }

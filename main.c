@@ -27,7 +27,12 @@ int main()
         return 0;
     }
 
-    printf("!!!WRITE PROGRAM DESCRIPTION!!!\n");
+    printf("Welcome!"
+"To use this program, please create a text file named strings.txt in the same folder as this program.\n\n"
+
+"* Each line of the file will appear as a separate pop-up message.\n"
+"* If the file has fewer lines than needed, some pop-ups will say, \"No input provided.\"\n"
+"* If it has extra lines, only the first few will be used.\n\n");
     printf("The pop-up messages are stored in a \"strings.txt\" file. If you want to make changes to the file please do it now. Do you want to continue? (y/n): ");
     char answer = 0;
     scanf("%c", &answer);

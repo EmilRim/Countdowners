@@ -233,71 +233,84 @@ int getQuotesFromFile(char *fileName, char **textStrings, int maxStringsNumber, 
 
 int getStringsFromFile(char *fileName, char **textStrings, int maxStringsNumber, int maxCharNumberInString)
 {
-    FILE *inputFile = fopen(fileName, "r");
-    if (inputFile == NULL)
-    {
-        perror("Error opening file");
-        return -1;
-    }
+   FILE *inputFile = fopen(fileName, "r");
+   if (inputFile == NULL)
+   {
+       perror("Error opening file");
+       // Fill with default message if file can't be opened
+       for (int i = 0; i < maxStringsNumber; i++) {
+           strcpy(textStrings[i], "No input provided");
+       }
+       return 0;
+   }
 
-    char buffer[maxCharNumberInString];
-    char c = 0;
-    int bufferSize = 0;
-    int stringsFound = 0;
+   char buffer[maxCharNumberInString];
+   char c = 0;
+   int bufferSize = 0;
+   int stringsFound = 0;
 
-    while (stringsFound < maxStringsNumber)
-    {
+   while (stringsFound < maxStringsNumber)
+   {
+       c = fgetc(inputFile);
+       while (c == '\n' || c == ' ')
+       {
+           c = fgetc(inputFile);
+       }
 
-        c = fgetc(inputFile);
-        while (c == '\n' || c == ' ')
-        {
-            c = fgetc(inputFile);
-        }
+       bufferSize = 0;
 
-        bufferSize = 0;
+       while (bufferSize < maxCharNumberInString - 1)
+       {
+           if (c == '\n' || c == EOF)
+           {
+               break;
+           }
 
-        while (bufferSize < maxCharNumberInString - 1)
-        {
+           buffer[bufferSize++] = c;
+           c = fgetc(inputFile);
+       }
 
-            if (c == '\n' || c == EOF)
-            {
-                break;
-            }
+       buffer[bufferSize] = '\0';
 
-            buffer[bufferSize++] = c;
-            c = fgetc(inputFile);
-        }
+       // XSS detection
+       if (detectXSSAttack(buffer) == 1)
+       {
+           printf("Potential XSS attack detected in input: %s\n", buffer);
+           strcpy(buffer, "Blocked potential XSS input");
+       }
 
-        buffer[bufferSize] = '\0';
+       strncpy(textStrings[stringsFound], buffer, maxCharNumberInString - 1);
+       textStrings[stringsFound][maxCharNumberInString - 1] = '\0';
+       stringsFound++;
 
-        strncpy(textStrings[stringsFound], buffer, maxCharNumberInString - 1);
-        textStrings[stringsFound][maxCharNumberInString - 1] = '\0';
-        stringsFound++;
+       if (c == EOF)
+       {
+           break;
+       }
 
-        if (c == EOF)
-        {
-            break;
-        }
+       if (bufferSize >= maxCharNumberInString - 1)
+       {
+           while ((c = fgetc(inputFile)) != EOF)
+           {
+               if (c == '\n')
+               {
+                   break;
+               }
+           }
+           if (c == EOF)
+           {
+               break;
+           }
+       }
+   }
 
-        if (bufferSize >= maxCharNumberInString - 1)
-        {
-            while ((c = fgetc(inputFile)) != EOF)
-            {
-                if (c == '\n')
-                {
-                    break;
-                }
-            }
-            if (c == EOF)
-            {
-                fclose(inputFile);
-                return stringsFound;
-            }
-        }
-    }
+   // Fill remaining slots with default message
+   for (int i = stringsFound; i < maxStringsNumber; i++) {
+       strcpy(textStrings[i], "No input provided");
+   }
 
-    fclose(inputFile);
-    return stringsFound;
+   fclose(inputFile);
+   return stringsFound;
 }
 
 void openHtml(const char *filename)

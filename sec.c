@@ -143,7 +143,7 @@ void popUpAppear(FILE *file)
 }
 
 void removeQuotes(char **strings, int arraySize) {
-    for (int i = 0; i < arraySize; i++) {
+    for (int i = 0; i < arraySize; ++i) {
         int len = strlen(strings[i]);
         for (int j = 0; j < len; j++) {
             if (strings[i][j] == 39 || strings[i][j] == 34) {

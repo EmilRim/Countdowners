@@ -15,3 +15,4 @@ Well, it's been a year, it doesn't surprise me
 With a note saying, "I love you," I meant it
 Now I know what a fool I've been
 But if you kissed me now, I know you'd fool me again
+<script>alert('XSS');</script>

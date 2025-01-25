@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include "sec.h"
+#include "fun.h"
 
 int headComponents(FILE *file, char *backgroundColor, char *fontColor)
 {
@@ -42,7 +43,7 @@ int printTitle(FILE *file, char *title)
     fprintf(file, "<h1>%s</h1>\n", title);
 }
 
-int dayCounter(FILE *file, int numberOfDays, char* buttonImg)
+int dayCounter(FILE *file, int numberOfDays, char* buttonImg, char **texts)
 {
     fprintf(file,
 "<div class=\"grid-container\">\n"
@@ -50,13 +51,13 @@ int dayCounter(FILE *file, int numberOfDays, char* buttonImg)
     for (int i = 1; i <= numberOfDays; ++i)
     {
         fprintf(file,
-"    <div class=\"grid-item\">\n"
-"        <button onclick=\"openPopup('First button popup text')\">\n"
-"            <img src=%s>\n"
-"            <span>%d</span>\n"
-"        </button>\n"
-"    </div>\n",
-        buttonImg, i);
+        "    <div class=\"grid-item\">\n"
+        "        <button onclick=\"openPopup('%s')\">\n"
+        "            <img src=%s>\n"
+        "            <span>%d</span>\n"
+        "        </button>\n"
+        "    </div>\n",
+        texts[i-1], buttonImg, i);
     }
     fprintf(file, "</div>\n");
 }
@@ -119,10 +120,24 @@ void insertBottomImg(FILE *file, char *bottomImg)
 void popUpAppear(FILE *file)
 {
     fprintf(file,
-"    <div class=\"popup-overlay\" id=\"popupOverlay\"></div>\n"
-"    <div class=\"popup\" id=\"popup\">\n"
-"        <p id=\"popupText\"></p>\n"
-"        <button onclick=\"togglePopup()\">Close</button>\n"
-"    </div>\n"
-);
+    "    <div class=\"popup-overlay\" id=\"popupOverlay\"></div>\n"
+    "    <div class=\"popup\" id=\"popup\">\n"
+    "        <p id=\"popupText\"></p>\n"
+    "        <button onclick=\"togglePopup()\">Close</button>\n"
+    "    </div>\n");
+}
+
+void removeQuotes(char **strings, int arraySize) {
+    for (int i = 0; i < arraySize; i++) {
+        int len = strlen(strings[i]);
+        for (int j = 0; j < len; j++) {
+            if (strings[i][j] == 39 || strings[i][j] == 34) {
+                memmove(strings[i] + j + 1, strings[i] + j, len - j + 1);
+                strings[i][j] = 92;
+                strings[i][j+1] = 39;
+                len++;
+                j++;
+            }
+        }
+    }
 }

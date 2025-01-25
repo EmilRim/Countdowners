@@ -9,7 +9,7 @@
 int headComponents(FILE *file, char *backgroundColor, char *fontColor);
 int printTitle(FILE *file, char *title);
 int dayCounter(FILE *file, int numberOfDays, char* buttonImg, char **texts);
-int validationForDaysNumber(int number);
+int getNumberOfDays(int number);
 void getTheme(char *buttonImg, char *bottomImg, char *backgroundColor, char *fontColor);
 void insertBottomImg(FILE *file, char *bottomImg);
 void popUpAppear(FILE *file);

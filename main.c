@@ -57,9 +57,7 @@ int main()
     printTitle(file, title);
 
     // Prompt and validate the number of days
-    printf("Number of days: ");
-    fscanf(stdin, "%d", &number);
-    number = validationForDaysNumber(number);
+    number = getNumberOfDays(number);
 
     char **strings = malloc(number * sizeof(char *));
     for(int i = 0; i < number; ++i){

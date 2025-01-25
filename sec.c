@@ -46,7 +46,7 @@ int printTitle(FILE *file, char *title)
 int dayCounter(FILE *file, int numberOfDays, char* buttonImg, char **texts)
 {
     fprintf(file,
-"<div class=\"grid-container\">\n"
+    "<div class=\"grid-container\">\n"
 );
     for (int i = 1; i <= numberOfDays; ++i)
     {
@@ -62,12 +62,20 @@ int dayCounter(FILE *file, int numberOfDays, char* buttonImg, char **texts)
     fprintf(file, "</div>\n");
 }
 
-int validationForDaysNumber(int number)
+int getNumberOfDays(int number)
 {
-    while (number < MIN_DAYS || number > MAX_DAYS)
-    {
-        printf("Please enter a number in a range [%d; %d]: ", MIN_DAYS, MAX_DAYS);
-        fscanf(stdin, "%d", &number);
+    printf("Please enter a number of days that you want in your Advent Calendar (max %d): ", MAX_DAYS);
+    while(1){
+        if (scanf("%d", &number) == 1 && (getchar() == '\n')) {
+            if (number >= MIN_DAYS && number <= MAX_DAYS) {
+                break;
+            } else {
+                printf("Invalid input. Please enter a number in a range [%d; %d]: ",  MIN_DAYS, MAX_DAYS);
+            }
+        } else {
+            printf("Invalid input. Enter an integer: ");
+            while (getchar() != '\n');
+        }
     }
 
     return number;

@@ -55,7 +55,7 @@ int main()
     insertBottomImg(file, bottomImg);
 
     // Finalize HTML structure
-    fprintf(file, "\n</main>\n");
+    fprintf(file, "\n    </main>\n");
     popUpAppear(file);
     fprintf(file, "</body>");
     fprintf(file, "\n</html>");

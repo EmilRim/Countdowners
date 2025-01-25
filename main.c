@@ -27,12 +27,26 @@ int main()
         return 0;
     }
 
+    printf("!!!WRITE PROGRAM DESCRIPTION!!!\n");
+    printf("The pop-up messages are stored in a \"strings.txt\" file. If you want to make changes to the file please do it now. Do you want to continue? (y/n): ");
+    char answer = 0;
+    scanf("%c", &answer);
+    while(answer != 'y' && answer != 'n'){
+        printf("Please enter y/n: ");
+        scanf(" %c", &answer);
+    }
+    if(answer == 'n'){
+        printf("The program is closing now.");
+        return 0;
+    }
+    while (getchar() != '\n');
 
     char buttonImg[64];
     char bottomImg[64];
     char backgroundColor[64];
     char fontColor[64];
     getTheme(buttonImg, bottomImg, backgroundColor, fontColor);
+
 
     // Write head section
     headComponents(file, backgroundColor, fontColor);
@@ -45,12 +59,17 @@ int main()
     printTitle(file, title);
 
     // Prompt and validate the number of days
-    printf("Number of days: ");
-    fscanf(stdin, "%d", &number);
-    number = validationForDaysNumber(number);
+    number = getNumberOfDays(number);
+
+    char **strings = malloc(number * sizeof(char *));
+    for(int i = 0; i < number; ++i){
+        strings[i] = malloc(64 * sizeof(char));
+    }
+    getStringsFromFile("strings.txt", strings, number, 64);
+    removeQuotes(strings, number);
 
     // Write days counter
-    dayCounter(file, number, buttonImg);
+    dayCounter(file, number, buttonImg, strings);
 
     insertBottomImg(file, bottomImg);
 

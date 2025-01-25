@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include "sec.h"
+#include "fun.h"
 
 int headComponents(FILE *file, char *backgroundColor, char *fontColor)
 {
@@ -45,31 +46,41 @@ int printTitle(FILE *file, char *title)
     return 0;
 }
 
-int dayCounter(FILE *file, int numberOfDays, char *buttonImg)
+int dayCounter(FILE *file, int numberOfDays, char* buttonImg, char **texts)
 {
-    fprintf(file, "        <div class=\"grid-container\">\n");
+    fprintf(file,
+    "<div class=\"grid-container\">\n"
+);
     for (int i = 1; i <= numberOfDays; ++i)
     {
         fprintf(file,
-                "            <div class=\"grid-item\">\n"
-                "                <button onclick=\"openPopup('First button popup text')\">\n"
-                "                    <img src=%s>\n"
-                "                    <span>%d</span>\n"
-                "                </button>\n"
-                "            </div>\n",
-                buttonImg, i);
+        "    <div class=\"grid-item\">\n"
+        "        <button onclick=\"openPopup('%s')\">\n"
+        "            <img src=%s>\n"
+        "            <span>%d</span>\n"
+        "        </button>\n"
+        "    </div>\n",
+        texts[i-1], buttonImg, i);
     }
     fprintf(file, "        </div>\n");
 
     return 0;
 }
 
-int validationForDaysNumber(int number)
+int getNumberOfDays(int number)
 {
-    while (number < MIN_DAYS || number > MAX_DAYS)
-    {
-        printf("Please enter a number in a range [%d; %d]: ", MIN_DAYS, MAX_DAYS);
-        fscanf(stdin, "%d", &number);
+    printf("Please enter a number of days that you want in your Advent Calendar (max %d): ", MAX_DAYS);
+    while(1){
+        if (scanf("%d", &number) == 1 && (getchar() == '\n')) {
+            if (number >= MIN_DAYS && number <= MAX_DAYS) {
+                break;
+            } else {
+                printf("Invalid input. Please enter a number in a range [%d; %d]: ",  MIN_DAYS, MAX_DAYS);
+            }
+        } else {
+            printf("Invalid input. Enter an integer: ");
+            while (getchar() != '\n');
+        }
     }
 
     return number;
@@ -79,28 +90,20 @@ void getTheme(char *buttonImg, char *bottomImg, char *backgroundColor, char *fon
 {
     int theme = 0;
 
-    while (1)
-    {
-        printf("Choose a website theme (enter only a number):\n");
-        printf("1. Snow\n");
-        printf("2. Christmas\n");
+    printf("Choose a website theme (enter only a number):\n");
+    printf("1. Snow\n");
+    printf("2. Christmas\n");
 
-        if (scanf("%d", &theme) == 1 && (getchar() == '\n'))
-        {
-            if (theme >= 1 && theme <= 2)
-            {
+    while (1) {
+        if (scanf("%d", &theme) == 1 && (getchar() == '\n')) {
+            if (theme >= 1 && theme <= 2) {
                 break;
+            } else {
+                printf("Invalid input. The options are 1 or 2: ");
             }
-            else
-            {
-                printf("\nInvalid input. Enter only 1 or 2\n");
-            }
-        }
-        else
-        {
-            printf("Invalid input. Enter an integer\n");
-            while (getchar() != '\n')
-                ;
+        } else {
+            printf("Invalid input. Please enter an integer: ");
+            while (getchar() != '\n');
         }
     }
 
@@ -132,9 +135,24 @@ void insertBottomImg(FILE *file, char *bottomImg)
 void popUpAppear(FILE *file)
 {
     fprintf(file,
-            "        <div class=\"popup-overlay\" id=\"popupOverlay\"></div>\n"
-            "        <div class=\"popup\" id=\"popup\">\n"
-            "            <p id=\"popupText\"></p>\n"
-            "            <button onclick=\"togglePopup()\">Close</button>\n"
-            "        </div>\n");
+    "    <div class=\"popup-overlay\" id=\"popupOverlay\"></div>\n"
+    "    <div class=\"popup\" id=\"popup\">\n"
+    "        <p id=\"popupText\"></p>\n"
+    "        <button onclick=\"togglePopup()\">Close</button>\n"
+    "    </div>\n");
+}
+
+void removeQuotes(char **strings, int arraySize) {
+    for (int i = 0; i < arraySize; i++) {
+        int len = strlen(strings[i]);
+        for (int j = 0; j < len; j++) {
+            if (strings[i][j] == 39 || strings[i][j] == 34) {
+                memmove(strings[i] + j + 1, strings[i] + j, len - j + 1);
+                strings[i][j] = 92;
+                strings[i][j+1] = 39;
+                len++;
+                j++;
+            }
+        }
+    }
 }

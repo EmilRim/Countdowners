@@ -28,7 +28,7 @@ int main()
     }
 
     printf("!!!WRITE PROGRAM DESCRIPTION!!!\n");
-    printf("The pop-up messages are stored in a \"strings.txt\" file. If you want to make changes to the file please do it now. Do you want to continue? (y/n)\n");
+    printf("The pop-up messages are stored in a \"strings.txt\" file. If you want to make changes to the file please do it now. Do you want to continue? (y/n): ");
     char answer = 0;
     scanf("%c", &answer);
     while(answer != 'y' && answer != 'n'){
@@ -36,8 +36,10 @@ int main()
         scanf(" %c", &answer);
     }
     if(answer == 'n'){
+        printf("The program is closing now.");
         return 0;
     }
+    while (getchar() != '\n');
 
     char buttonImg[64];
     char bottomImg[64];

@@ -85,19 +85,19 @@ void getTheme(char *buttonImg, char *bottomImg, char *backgroundColor, char *fon
 {
     int theme = 0;
 
-    while (1) {
-        printf("Choose a website theme (enter only a number):\n");
-        printf("1. Snow\n");
-        printf("2. Christmas\n");
+    printf("Choose a website theme (enter only a number):\n");
+    printf("1. Snow\n");
+    printf("2. Christmas\n");
 
+    while (1) {
         if (scanf("%d", &theme) == 1 && (getchar() == '\n')) {
             if (theme >= 1 && theme <= 2) {
                 break;
             } else {
-                printf("\nInvalid input. Enter only 1 or 2\n");
+                printf("Invalid input. The options are 1 or 2: ");
             }
         } else {
-            printf("Invalid input. Enter an integer\n");
+            printf("Invalid input. Please enter an integer: ");
             while (getchar() != '\n');
         }
     }

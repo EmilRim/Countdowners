@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="An Advent Calendar">
+    <meta name="author" content="Countdowners">
+    <link href="https://fonts.googleapis.com/css?family=Krona+One" rel="stylesheet">
+    <link rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/x-icon" href="present.png">
+    <style>
+        body {
+            background: linear-gradient(#6E8D97 0%, #C3D0D5 40%, #DEE4E6 100%);
+        }
+        .grid-item button span {
+            color: rgb(64, 136, 140);
+        }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+    <script src="java.js"></script>
+    <title>My Website</title>
+</head>
+<body>
+    <main id="blur">
+        <h1>hehe</h1>
+<div class="grid-container">
+    <div class="grid-item">
+        <button onclick="openPopup('Last Christmas, I gave you my heart')">
+            <img src="snowball.svg">
+            <span>1</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('But the very next day, you gave it away')">
+            <img src="snowball.svg">
+            <span>2</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('This year, to save me from tears')">
+            <img src="snowball.svg">
+            <span>3</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('I\'ll give it to someone special')">
+            <img src="snowball.svg">
+            <span>4</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('Last Christmas, I gave you my heart')">
+            <img src="snowball.svg">
+            <span>5</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('But the very next day, you gave it away (You gave it away)')">
+            <img src="snowball.svg">
+            <span>6</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('This year, to save me from tears')">
+            <img src="snowball.svg">
+            <span>7</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('I\'ll give it to someone special (Special)')">
+            <img src="snowball.svg">
+            <span>8</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('Once bitten and twice shy')">
+            <img src="snowball.svg">
+            <span>9</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('I keep my distance, but you still catch my eye')">
+            <img src="snowball.svg">
+            <span>10</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('Tell me, baby, do you recognise me?')">
+            <img src="snowball.svg">
+            <span>11</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('Well, it\'s been a year, it doesn\'t surprise me')">
+            <img src="snowball.svg">
+            <span>12</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('\'Happy Christmas,\' I wrapped it up and sent it')">
+            <img src="snowball.svg">
+            <span>13</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('With a note saying, \'I love you,\' I meant it')">
+            <img src="snowball.svg">
+            <span>14</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('Now I know what a fool I\'ve been')">
+            <img src="snowball.svg">
+            <span>15</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('But if you kissed me now, I know you\'d fool me again')">
+            <img src="snowball.svg">
+            <span>16</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('Blocked potential XSS input')">
+            <img src="snowball.svg">
+            <span>17</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('No input provided')">
+            <img src="snowball.svg">
+            <span>18</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('No input provided')">
+            <img src="snowball.svg">
+            <span>19</span>
+        </button>
+    </div>
+    <div class="grid-item">
+        <button onclick="openPopup('No input provided')">
+            <img src="snowball.svg">
+            <span>20</span>
+        </button>
+    </div>
+        </div>
+        <div class="trees">
+            <img src="trees.svg" alt="BottomImg">
+        </div>
+
+    </main>
+    <div class="popup-overlay" id="popupOverlay"></div>
+    <div class="popup" id="popup">
+        <p id="popupText"></p>
+        <button onclick="togglePopup()">Close</button>
+    </div>
+</body>
+</html>

@@ -27,13 +27,8 @@ int main()
         return 0;
     }
 
-    printf("Welcome!"
-"To use this program, please create a text file named strings.txt in the same folder as this program.\n\n"
-
-"* Each line of the file will appear as a separate pop-up message.\n"
-"* If the file has fewer lines than needed, some pop-ups will say, \"No input provided.\"\n"
-"* If it has extra lines, only the first few will be used.\n\n");
-    printf("The pop-up messages are stored in a \"strings.txt\" file. If you want to make changes to the file please do it now. Do you want to continue? (y/n): ");
+    printf("\nDigital Advent Calendar Builder\n");
+    printf("\nText for each day is stored in \"strings.txt\".\nPlease review and edit the file if needed before proceeding. \nDo you want to continue? (y/n): ");
     char answer = 0;
     scanf("%c", &answer);
     while(answer != 'y' && answer != 'n'){
@@ -41,7 +36,7 @@ int main()
         scanf(" %c", &answer);
     }
     if(answer == 'n'){
-        printf("The program is closing now.");
+        printf("The program is closing now.\n");
         return 0;
     }
     while (getchar() != '\n');
@@ -52,10 +47,8 @@ int main()
     char fontColor[64];
     getTheme(buttonImg, bottomImg, backgroundColor, fontColor);
 
-
     // Write head section
     headComponents(file, backgroundColor, fontColor);
-    fprintf(file, "\n  </head>");
 
     // Get valid title input
     title = getValidTitleInput(title, MAX_LENGTH);

@@ -16,7 +16,7 @@ This application creates a custom HTML advent calendar tailored to your specific
 2. Enter unique text, with each line corresponding to a specific day
 
 ### Running the Program
-1. Launch `makecalendar.exe`
+1. Launch `create.exe`
 2. Customize your calendar:
    - Select theme
    - Set calendar title

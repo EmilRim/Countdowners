@@ -6,18 +6,29 @@ This application creates a custom HTML advent calendar tailored to your specific
 - Customize the calendar's title
 - Select from various visual themes to match your style
 
+
+# MakeCalendar Program User Guide
+
 ## Getting Started
 
-To get started, simply populate the `strings.txt` file with your desired text—one line for each day of the advent calendar. When you run the program, you'll be prompted to choose your preferred calendar settings, allowing you to create a truly unique holiday experience.
+### Preparation
+1. Open the `strings.txt` file
+2. Enter unique text, with each line corresponding to a specific day
 
-### Key Steps:
+### Running the Program
+1. Launch `makecalendar.exe`
+2. Customize your calendar:
+   - Select theme
+   - Set calendar title
+   - Choose specific days
 
-1. Open the `strings.txt` file.
-2. Enter your unique text, with each line corresponding to a specific day.
-3. Run the program and customize your calendar's theme, days, and title.
-4. Generate your personalized advent calendar.
+### Output
+- Generate personalized advent calendar
 
-Enjoy creating a festive and memorable countdown!
+## Tips
+- Ensure `strings.txt` is in the same directory as the executable
+- Each line in `strings.txt` represents content for a calendar day
+- Experiment with different themes and customization options
 
 
 
